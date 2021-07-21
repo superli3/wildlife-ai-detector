@@ -13,3 +13,6 @@ print(img1)
 # Inference
 results = model(img1)
 print(results.pandas().xyxy[0] )
+
+for row in results.pandas().xyxy[0].iterrows():
+    print(row)

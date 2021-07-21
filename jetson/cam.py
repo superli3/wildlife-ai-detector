@@ -5,7 +5,10 @@ import paho.mqtt.client as mqtt
 import time
 import torch
 from PIL import Image
+import pandas as pd
 
+
+# Read in yolo model
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades  + 'haarcascade_frontalface_default.xml')
@@ -14,51 +17,46 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades  + 'haarcascade_front
 #model = cv2.dnn.readNetFromONNX('/Users/jeff/documents/mids/w251/yolov5/yolov5s.onnx')
 print(model)
 video_capture = cv2.VideoCapture(0)
-#video_capture.set(3,224)
-#video_capture.set(4,224)
+
+#empty dataframe to append to
+captured_data = pd.DataFrame()
 
 while True:
     # Capture frame-by-frame
     ret, frame = video_capture.read()
 
-    print(frame.shape)
-
-    #print(ret)
+    #print(frame.shape)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    #print(gray)
-    #print(frame)
-    #image = cv2.imread(frame)
-    
-    
-    #blob = cv2.dnn.blobFromImage(frame, 1.0 / 255, (224, 224),(0, 0, 0), swapRB=True, crop=False)
 
-    print(type(frame))
-
-    test = Image.fromarray(frame)
-    results = model(test)
+    #convert frame into format that mdoel can interpret
+    PIL_image = Image.fromarray(frame)
+    results = model(PIL_image)
     #preds = model.forward()
 
+    frame_results_dataframe = results.pandas().xyxy[0]
 
-    #faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-    #faces = model(gray, size=1280)
-    #count = 0
-    # for (x,y,w,h) in faces:
+    if len(frame_results_dataframe) > 0:
+        frame_results_dataframe['time'] = time.strftime("%H:%M:%S", time.localtime())
 
-    #     #draw a border around the face
-    #     cv2.rectangle(frame,(x,y),(x+w,y+h),(255,255,0),2)
-    #     roi_gray = frame[y:y+h, x:x+w]
+    #draw objects around frame
+    for index, row in frame_results_dataframe.iterrows():
+        xmin = int(row['xmin'])
+        xmax = int(row['xmax'])
+        ymin = int(row['ymin'])
+        ymax = int(row['ymax'])
 
-    #     #save the face as a base64 string to be emitted.
-    #     face = frame[y:y+h, x:x+w] #slice the face from the image
-    #     retval, buffer = cv2.imencode('.jpg', face)
-        #print(jpg_as_text)
+        cv2.rectangle(frame,(xmin,ymin),(xmax,ymax),(255,255,0),2)
+        cv2.putText(frame, row['name'] + " - " + str(row['confidence']) , (xmin, ymin-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
+        roi_gray = frame[ymin:ymax, xmin:xmax]
 
-        #cv2.imwrite(str(count)+'.jpg', face)
-        #count+=1
 
     # Display the resulting frame
     cv2.imshow('frame', frame)
-      
+
+    captured_data = captured_data.append(frame_results_dataframe)
+    print(captured_data)
+    time.sleep(1)    
+
     # the 'q' button is set as the
     # quitting button you may use any
     # desired button of your choice
