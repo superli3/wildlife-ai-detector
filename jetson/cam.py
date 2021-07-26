@@ -1,9 +1,9 @@
 import numpy as np
-import cv2
 import base64
 import paho.mqtt.client as mqtt
 import time
 import torch
+import cv2
 from PIL import Image
 import pandas as pd
 
@@ -55,7 +55,7 @@ while True:
 
     captured_data = captured_data.append(frame_results_dataframe)
     print(captured_data)
-    time.sleep(1)    
+    # time.sleep(1)    
 
     # the 'q' button is set as the
     # quitting button you may use any
