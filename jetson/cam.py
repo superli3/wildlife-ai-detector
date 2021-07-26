@@ -11,7 +11,7 @@ import pandas as pd
 # Read in yolo model
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades  + 'haarcascade_frontalface_default.xml')
+#face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades  + 'haarcascade_frontalface_default.xml')
 
 
 #model = cv2.dnn.readNetFromONNX('/Users/jeff/documents/mids/w251/yolov5/yolov5s.onnx')
