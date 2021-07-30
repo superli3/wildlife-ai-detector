@@ -8,15 +8,63 @@ from PIL import Image
 import pandas as pd
 import shutil
 import datetime
-from publisher import MQTT_connector
 
 
-test = MQTT_connector()
-print(test)
-print(test.mqttc)
-test.establish_connect()
-test.publish_message('blah')
-#publisher1.establish_connect()
+connflag = False
+
+# func for establishing connection
+def on_connect(client, userdata, flags, rc):                
+    global connflag
+    print("Connected to AWS")
+    connflag = True
+    #if connection is successful, rc value will be 0
+    print("Connection returned result: " + str(rc) )
+    #print(flags)
+
+# Func for Sending msg
+def on_message(client, userdata, msg):                      
+    print(msg.topic+" "+str(msg.payload))
+ 
+#def on_log(client, userdata, level, buf):
+#    print(msg.topic+" "+str(msg.payload))
+
+#create an mqtt client object
+mqttc = paho.Client()    
+
+#attach call back function
+mqttc.on_connect = on_connect
+
+# assign on_message func
+mqttc.on_message = on_message                               
+
+#### AWS Settings #### 
+# Endpoint
+awshost = "a1ug9vgksby7oq-ats.iot.us-west-1.amazonaws.com"  
+# Connection port
+awsport = 8883
+
+ # Thing name
+clientId = "W251-FP-YSJetson"                                    
+thingName = "W251-FP-YSJetson"   
+# Root_CA_Certificate_Name
+caPath = "root-CA.crt"             
+
+ # <Thing_Name>.cert.pem.crt. Thing's certificate from Amazon
+certPath = "W251-FP-YSJetson.cert.pem"  
+
+# <Thing_Name>.private.key Thing's private key from Amazon
+keyPath = "W251-FP-YSJetson.private.key"        
+
+# set parameters for mqqt aws transmission
+mqttc.tls_set(caPath, certfile=certPath, keyfile=keyPath, cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)  
+
+# connect to aws IOT server
+mqttc.connect(awshost, awsport, keepalive=60)               
+
+# Start MQTTC loop
+mqttc.loop_start()                                         
+
+
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 #face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades  + 'haarcascade_frontalface_default.xml')
@@ -60,7 +108,9 @@ while True:
 
             message = '{'+'"eventtimestamp":"'+str(row['time']) + '",' + '"classid":"'+str(row['classid'])+'",' + '"confidence":"'+str(row['confidence'])+ '",' + '"name":"'+ str(row['classname']) + '",' + '"xmax":"'+ str(row['xmax']) + '",' + '"xmin":"' + str(row['xmin']) + '",' + '"ymax":"'+ str(row['ymax']) +'"}'
 
-            test.publish_message(message)
+            mqttc.publish("jetsoneventstopic", message, 1)     
+            # Print sent msg to console
+            print("Msg sent: ", message ) 
 
             cv2.rectangle(frame,(xmin,ymin),(xmax,ymax),(255,255,0),2)
             cv2.putText(frame, row['name'] + " - " + str(row['confidence']) , (xmin, ymin-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
