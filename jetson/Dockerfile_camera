@@ -23,6 +23,7 @@ COPY yolov5s.pt yolov5s.pt
 RUN ["python3","initialize_yolo.py"]
 RUN ["cp","yolov5s.pt","./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt"]
 COPY cam_a.py cam_a.py
+COPY cam_b.py cam_b.py
 #COPY yolov5s.pt ./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt
 
 ENV num_workers=1
@@ -34,6 +35,5 @@ COPY root-CA.crt root-CA.crt
 COPY W251-FP-YSJetson.cert.pem W251-FP-YSJetson.cert.pem
 COPY W251-FP-YSJetson.private.key W251-FP-YSJetson.private.key
 COPY W251-FP-YSJetson.public.key W251-FP-YSJetson.public.key
-
 
 CMD ["python3","cam_a.py"]
