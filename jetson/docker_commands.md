@@ -7,4 +7,4 @@ cd [path here]
 docker build -t testimage -f Dockerfile_camera .
 
 ## run image 
-docker run -it --rm --device /dev/video0 --network host -e DISPLAY=$DISPLAY testimage 
+docker run -it --gpus all --rm --device /dev/video0 --network host -e DISPLAY=$DISPLAY testimage 

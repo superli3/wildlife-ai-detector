@@ -6,16 +6,21 @@ import torch
 import cv2
 from PIL import Image
 import pandas as pd
+import shutil
 
 
-# Read in yolo model
+print("copied over, now v2")
+
+
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 #face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades  + 'haarcascade_frontalface_default.xml')
 
 
 #model = cv2.dnn.readNetFromONNX('/Users/jeff/documents/mids/w251/yolov5/yolov5s.onnx')
-print(model)
+#print(torch.cuda.is_available())
+#print(torch.cuda.device_count())
+#print(torch.cuda.get_device_name(0))
 video_capture = cv2.VideoCapture(0)
 
 #empty dataframe to append to

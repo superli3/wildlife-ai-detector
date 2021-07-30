@@ -8,7 +8,7 @@ RUN apt install -y mosquitto-clients
 #RUN pip3 install --upgrade pip setuptools wheel
 RUN apt install -y libcanberra-gtk-module libcanberra-gtk3-module
 RUN pip3 install Cython
-RUN pip3 install torchvision
+RUN pip3 install torchvision 
 RUN pip3 install requests
 RUN pip3 install numpy==1.20.3
 RUN pip3 install pandas
@@ -18,8 +18,22 @@ RUN pip3 install paho-mqtt
 RUN pip3 install pyyaml tqdm
 RUN pip3 install seaborn
 # example from https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_gui/py_video_display/py_video_display.html
-COPY cam.py cam.py
+COPY initialize_yolo.py initialize_yolo.py
+COPY yolov5s.pt yolov5s.pt
+RUN ["python3","initialize_yolo.py"]
+RUN ["cp","yolov5s.pt","./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt"]
+COPY cam_a.py cam_a.py
+#COPY yolov5s.pt ./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt
+
 ENV num_workers=1
 
 # CMD ["export", "LD_PRELOAD=/usr/local/lib/python3.8/dist-packages/torch/lib/libgomp-d22c30c5.so.1"]
-CMD ["python3","cam.py"]
+
+
+COPY root-CA.crt root-CA.crt
+COPY W251-FP-YSJetson.cert.pem W251-FP-YSJetson.cert.pem
+COPY W251-FP-YSJetson.private.key W251-FP-YSJetson.private.key
+COPY W251-FP-YSJetson.public.key W251-FP-YSJetson.public.key
+
+
+CMD ["python3","cam_a.py"]
