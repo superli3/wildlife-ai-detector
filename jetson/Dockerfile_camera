@@ -24,6 +24,8 @@ RUN ["python3","initialize_yolo.py"]
 RUN ["cp","yolov5s.pt","./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt"]
 COPY cam_a.py cam_a.py
 COPY cam_b.py cam_b.py
+COPY cam_c.py cam_c.py
+COPY publisher.py publisher.py
 #COPY yolov5s.pt ./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt
 
 ENV num_workers=1
