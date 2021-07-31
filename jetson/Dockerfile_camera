@@ -21,9 +21,12 @@ RUN pip3 install pyyaml tqdm
 RUN pip3 install seaborn
 # example from https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_gui/py_video_display/py_video_display.html
 COPY initialize_yolo.py initialize_yolo.py
-COPY yolov5s.pt yolov5s.pt
 RUN ["python3","initialize_yolo.py"]
-RUN ["cp","yolov5s.pt","./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt"]
+
+#copy trained weights over
+COPY trained_weights_7_28_1000_epochs.pt yolov5s.pt
+RUN ["cp","trained_weights_7_28_1000_epochs.pt","./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt"]
+
 COPY cam_a.py cam_a.py
 COPY cam_b.py cam_b.py
 COPY cam_c.py cam_c.py
