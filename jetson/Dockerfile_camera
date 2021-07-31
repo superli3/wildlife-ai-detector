@@ -24,8 +24,8 @@ COPY initialize_yolo.py initialize_yolo.py
 RUN ["python3","initialize_yolo.py"]
 
 #copy trained weights over
-COPY trained_weights_7_28_1000_epochs.pt yolov5s.pt
-RUN ["cp","trained_weights_7_28_1000_epochs.pt","./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt"]
+COPY trained_weights_7_22.pt yolov5s.pt
+RUN ["cp","yolov5s.pt","./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt"]
 
 COPY cam_a.py cam_a.py
 COPY cam_b.py cam_b.py

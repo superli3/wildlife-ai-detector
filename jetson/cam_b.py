@@ -58,7 +58,7 @@ while True:
             ymax = int(row['ymax'])
 
 
-            message = '{'+'"eventtimestamp":"'+str(row['time']) + '",' + '"classid":"'+str(row['classid'])+'",' + '"confidence":"'+str(row['confidence'])+ '",' + '"name":"'+ str(row['classname']) + '",' + '"xmax":"'+ str(row['xmax']) + '",' + '"xmin":"' + str(row['xmin']) + '",' + '"ymax":"'+ str(row['ymax']) +'"}'
+            message = '{'+'"eventtimestamp":"'+str(row['time']) + '",' + '"classid":"'+str(row['class'])+'",' + '"confidence":"'+str(row['confidence'])+ '",' + '"name":"'+ str(row['name']) + '",' + '"xmax":"'+ str(row['xmax']) + '",' + '"xmin":"' + str(row['xmin']) + '",' + '"ymax":"'+ str(row['ymax']) +'"}'
 
             test.publish_message(message)
 
