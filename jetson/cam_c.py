@@ -122,7 +122,7 @@ while True:
     cv2.imshow('frame', frame)
 
     captured_data = captured_data.append(frame_results_dataframe)
-    print(captured_data)
+    #print(captured_data)
     # time.sleep(1)    
 
     # the 'q' button is set as the
