@@ -1,0 +1,7 @@
+{
+    "s3_bucket":"hw05finalproject",
+    "job_id":"dOLZqXq9pZ",
+    "ground_truth_job_name":"BetaRelease45thFrame-clone",
+    "yolo_output_dir":"yolo_annot_files",
+    "custom_job_name":"SquirrelCal-ref"
+}
