@@ -20,7 +20,7 @@ We modified parse_annots.py to work with video labeling projects, which requirin
 
 This steps saves all of the annotations into a single file ([annot.csv](annot.csv)), which is a prelimenary step before saving the annotations into yolo format. From this point forward the steps are the same as the samples provided by AWS. 
 
-5. **Run create_annot.py** <>
+5. **Run create_annot.py** <br>
 This step will traverse the CSV and save labels in yolo format, which has one image per format. 
 
 After the individual labels were created, they were split into train and test sets. The final set of images, labels, and yolo.yaml file are available for [download from AWS](https://hw05finalproject.s3.us-west-2.amazonaws.com/dataset2.zip).  
