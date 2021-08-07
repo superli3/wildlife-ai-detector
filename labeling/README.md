@@ -13,7 +13,7 @@ We started by cloning the AWS samples at https://github.com/aws-samples/groundtr
 This code requires access to AWS to read and write to the AWS S3 bucket where your images and annotates are stored. Follow [these steps](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) to configure the CLI and your credentials.
 
 3. **Edit input.json**<br>
-This configuration file specifics where to find the annotations and image files created by Ground Truth. 
+This configuration file specifies where to find the annotations and image files created by Ground Truth. 
 
 4. **Run parse_annots_video.py**<br>
 We modified parse_annots.py to work with video labeling projects, which requiring walking through directories to find all of the files and annotations in a project. 
