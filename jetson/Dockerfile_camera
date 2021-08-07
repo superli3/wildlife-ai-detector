@@ -3,9 +3,11 @@ FROM ubuntu
 ENV DEBIAN_FRONTEND noninteractive
 # update the base iamge
 RUN apt-get update && apt-get -y update 
+RUN apt-get install -y libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
 RUN apt install -y python3-dev python3-pip  python3-opencv vim-tiny  libopencv-dev
 RUN apt install -y mosquitto-clients
 #RUN pip3 install --upgrade pip setuptools wheel
+RUN apt-get install openssl ca-certificates 
 RUN apt install -y libcanberra-gtk-module libcanberra-gtk3-module
 RUN pip3 install Cython
 RUN pip3 install torchvision 
@@ -19,11 +21,16 @@ RUN pip3 install pyyaml tqdm
 RUN pip3 install seaborn
 # example from https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_gui/py_video_display/py_video_display.html
 COPY initialize_yolo.py initialize_yolo.py
-COPY yolov5s.pt yolov5s.pt
 RUN ["python3","initialize_yolo.py"]
+
+#copy trained weights over
+COPY trained_weights_7_22.pt yolov5s.pt
 RUN ["cp","yolov5s.pt","./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt"]
+
 COPY cam_a.py cam_a.py
 COPY cam_b.py cam_b.py
+COPY cam_c.py cam_c.py
+COPY publisher.py publisher.py
 #COPY yolov5s.pt ./root/.cache/torch/hub/ultralytics_yolov5_master/yolov5s.pt
 
 ENV num_workers=1
@@ -36,4 +43,4 @@ COPY W251-FP-YSJetson.cert.pem W251-FP-YSJetson.cert.pem
 COPY W251-FP-YSJetson.private.key W251-FP-YSJetson.private.key
 COPY W251-FP-YSJetson.public.key W251-FP-YSJetson.public.key
 
-CMD ["python3","cam_a.py"]
+CMD ["python3","cam_c.py"]

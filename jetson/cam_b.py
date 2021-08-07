@@ -7,11 +7,16 @@ import cv2
 from PIL import Image
 import pandas as pd
 import shutil
+import datetime
+from publisher import MQTT_connector
 
 
-print("copied over, now v2")
-
-
+test = MQTT_connector()
+print(test)
+print(test.mqttc)
+test.establish_connect()
+test.publish_message('blah')
+#publisher1.establish_connect()
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 #face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades  + 'haarcascade_frontalface_default.xml')
@@ -43,16 +48,23 @@ while True:
     if len(frame_results_dataframe) > 0:
         frame_results_dataframe['time'] = time.strftime("%H:%M:%S", time.localtime())
 
-    #draw objects around frame
-    for index, row in frame_results_dataframe.iterrows():
-        xmin = int(row['xmin'])
-        xmax = int(row['xmax'])
-        ymin = int(row['ymin'])
-        ymax = int(row['ymax'])
+        #draw objects around frame
 
-        cv2.rectangle(frame,(xmin,ymin),(xmax,ymax),(255,255,0),2)
-        cv2.putText(frame, row['name'] + " - " + str(row['confidence']) , (xmin, ymin-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
-        roi_gray = frame[ymin:ymax, xmin:xmax]
+        timeStamp = datetime.datetime.now()
+        for index, row in frame_results_dataframe.iterrows():
+            xmin = int(row['xmin'])
+            xmax = int(row['xmax'])
+            ymin = int(row['ymin'])
+            ymax = int(row['ymax'])
+
+
+            message = '{'+'"eventtimestamp":"'+str(timeStamp) + '",' + '"classid":"'+str(row['class'])+'",' + '"confidence":"'+str(row['confidence'])+ '",' + '"name":"'+ str(row['name']) + '",' + '"xmax":"'+ str(row['xmax']) + '",' + '"xmin":"' + str(row['xmin']) + '",' + '"ymax":"'+ str(row['ymax']) +'"}'
+
+            test.publish_message(message)
+
+            cv2.rectangle(frame,(xmin,ymin),(xmax,ymax),(255,255,0),2)
+            cv2.putText(frame, row['name'] + " - " + str(row['confidence']) , (xmin, ymin-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
+            roi_gray = frame[ymin:ymax, xmin:xmax]
 
 
     # Display the resulting frame
