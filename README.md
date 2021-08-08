@@ -1,6 +1,6 @@
 # Wildlife detection.
 
-This repo contains the final project involving wildlife detection for w251, which encompasses wildlife detection
+This repo contains the final project involving wildlife detection for UC Berkeley - w251 - Deep Learning at the Cloud & Edge.
 
 Contributors: Alex Heaton, Jeff Li, Tina Huang, Yuriy Shevchenko
 
