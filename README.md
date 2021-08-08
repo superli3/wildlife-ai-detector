@@ -48,27 +48,15 @@ We made improvements using augmentation including grey scale and angle change. W
 We saw noticeable improvement from 300 epochs to 1000 epochs. Below is an example of a testing image. The left image is with the inference result of 300 epochs, in which only the nuts are detected but not the squirrel. The right image is the same image but with the inference result of 1000 epochs, in which both squirrel and nuts are detected.
   
 We reached 0.803 for overall precision, 0.829 for squirrel class precision, and 0.777 for nut class precision.
+
 (See below table for final model stats)
-Class
-Squirrel
-Nut
-All
-Precision
-0.829
-0.777
-0.803
-Recall
-0.894
-0.817
-0.856
-mAP@.5
-0.878
-0.84 
-0.859
-mAP@.5:.95
-0.473
-0.255
-0.364
+
+Class | Squirrel | Nut | All
+------|-------|---------|--------
+Precision | 0.829 | 0.777 | 0.803
+Recall | 0.894 | 0.817 | 0.856
+mAP@.5 | 0.878 | 0.84 | 0.859
+mAP@.5:.95 | 0.473 | 0.255 | 0.364
 
 
 
