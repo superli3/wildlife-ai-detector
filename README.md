@@ -2,7 +2,7 @@
 
 This repo contains the final project involving wildlife detection for w251, which encompasses wildlife detection
 
-Contributors: Alex Heaton, Jeff Li, Tina Huang
+Contributors: Alex Heaton, Jeff Li, Tina Huang, Yuriy Shevchenko
 
 ## Project Inspiration and Overview
 In this project we used deep learning (computer vision) to automate animal monitoring to generate insights that can be acted upon by humans or another computer process. 
