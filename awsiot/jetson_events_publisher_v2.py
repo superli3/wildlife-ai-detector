@@ -41,16 +41,16 @@ awshost = "a1ug9vgksby7oq-ats.iot.us-west-1.amazonaws.com"
 awsport = 8883
 
  # Thing name
-clientId = "W251-FP-YSJetson"                                    
-thingName = "W251-FP-YSJetson"   
+clientId = "<your id>"                                    
+thingName = <thig name>"   
 # Root_CA_Certificate_Name
-caPath = "root-CA.crt"             
+caPath = "<root cert>"             
 
  # <Thing_Name>.cert.pem.crt. Thing's certificate from Amazon
-certPath = "W251-FP-YSJetson.cert.pem"  
+certPath = "<your pem cert>"  
 
 # <Thing_Name>.private.key Thing's private key from Amazon
-keyPath = "W251-FP-YSJetson.private.key"        
+keyPath = "<your private key>"        
 
 # set parameters for mqqt aws transmission
 mqttc.tls_set(caPath, certfile=certPath, keyfile=keyPath, cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)  
