@@ -43,4 +43,4 @@ COPY W251-FP-YSJetson.cert.pem W251-FP-YSJetson.cert.pem
 COPY W251-FP-YSJetson.private.key W251-FP-YSJetson.private.key
 COPY W251-FP-YSJetson.public.key W251-FP-YSJetson.public.key
 
-CMD ["python3","cam_c.py"]
+CMD ["python3","cam_a.py"]

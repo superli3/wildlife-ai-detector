@@ -18,9 +18,9 @@ model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 
 #model = cv2.dnn.readNetFromONNX('/Users/jeff/documents/mids/w251/yolov5/yolov5s.onnx')
-#print(torch.cuda.is_available())
-#print(torch.cuda.device_count())
-#print(torch.cuda.get_device_name(0))
+print(torch.cuda.is_available())
+print(torch.cuda.device_count())
+print(torch.cuda.get_device_name(0))
 video_capture = cv2.VideoCapture(0)
 
 #empty dataframe to append to
