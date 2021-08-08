@@ -15,6 +15,7 @@ Our research was motivated by monitoring live camera feed that is installed at B
 In commercial applications, we see an increase in smart pet products using AI to create automated cat feeders, bird feeders that identify birds, and robots that will follow your pet to monitor them and keep them company.  
 
 ## Solutions Overview 
+![image](/images/0.png)
 Our goal was to create an end-to-end workflow that could be followed by others to accomplish similar tasks. he steps of this workflow are to
 Collect video recordings (data)
 Label video frames
@@ -39,6 +40,8 @@ Convert Labels to Yolo v5 Format
 The one con of Ground Truth was that it saves the labels in a proprietary format and additional transformations are required to convert it to the Yolo format. AWS has published a blog and sample code on github to convert the Ground Truth annotations to Yolo format. However, the samples only covered static images and not video files. The sample code did not work for annotating videos because the frames and annotations are spread across multiple directories (one for each video) so custom code was required to convert the annotations to Yolo format. We plan to make this code available to others who need to label videos in Ground Truth. 
 
 ## Model 
+
+![image](/images/1.png)
 We divided the labeled images into 70% (219) training, 20% (63) validation, and 10% (31) testing sets and used the images collected to retrain the YOLOv5 model. We trained the model on Google Colab with GPU using Roboflow custom YOLOv5 notebook. We choose YOLOv5s because its small size can reduce space required on the Jetson and lower running time. 
 
 We made improvements using augmentation including grey scale and angle change. We also improved the model performance by increasing training time from 100 epochs to 300 epochs to 1000 epochs. 
@@ -46,7 +49,9 @@ We made improvements using augmentation including grey scale and angle change. W
 
 
 We saw noticeable improvement from 300 epochs to 1000 epochs. Below is an example of a testing image. The left image is with the inference result of 300 epochs, in which only the nuts are detected but not the squirrel. The right image is the same image but with the inference result of 1000 epochs, in which both squirrel and nuts are detected.
-  
+
+![image](/images/2.png) ![image](/images/3.png)
+
 We reached 0.803 for overall precision, 0.829 for squirrel class precision, and 0.777 for nut class precision.
 
 (See below table for final model stats)
@@ -74,7 +79,7 @@ If an object has been detected in the frame, we utilize MQTT messaging to send a
 
 ## Integration Architecture
 
-
+![image](/images/4.png)
 
 
 
@@ -86,36 +91,39 @@ In this project we are utilizing AWS IoT Mosquitto Broker service to capture all
 
 Here is the format of the data that MQTT Broker receives from Jetson:
 
-
+![image](/images/5.png)
 
 ## AWS DynamoDB
 
 Amazon DynamoDB is a key-value and document-based high performance database that is easily scalable and fully managed on the cloud. It fits our purpose perfectly to capture and store triggered events from Jetson for further review and analysis.
 
-
+![image](/images/6.png)
 
 As a key for each record, it was decided to utilize a timestamp of the triggered event and use Class Id of the event as a sorting key in DynamoDB. The rest of the data is stored as a payload text in a JSON format.
 
 
-
+![image](/images/7.png)
 
 ## Results Review
 
-
+![image](/images/8.png)
+![image](/images/9.png)
 
 
 ## Future Improvements
 
-Change model to lite to speed up inference
-Standardize labeling & increase training data set  for better accuracy
-Expand to other wild animals
-Train models to recognize animal faces to separate animals of the same species
-Train model to recognize food consumption
-Overlay collected data with public weather and air quality data for patterns recognition
-Connect to an automated feeding system to feed when all nuts are gone 
-References
-Shinobi Open Source CCTV Solution https://shinobi.video/ 
-Roboflow-Custom-YOLOv5: https://colab.research.google.com/drive/1gDZ2xcTOgR39tGGs-EZ6i3RTs16wmzZQ
+-Change model to lite to speed up inference
+-Standardize labeling & increase training data set  for better accuracy
+-Expand to other wild animals
+-Train models to recognize animal faces to separate animals of the same species
+-Train model to recognize food consumption
+-Overlay collected data with public weather and air quality data for patterns recognition
+-Connect to an automated feeding system to feed when all nuts are gone 
+
+
+## References
+-Shinobi Open Source CCTV Solution https://shinobi.video/ 
+-Roboflow-Custom-YOLOv5: https://colab.research.google.com/drive/1gDZ2xcTOgR39tGGs-EZ6i3RTs16wmzZQ
 
 
 
