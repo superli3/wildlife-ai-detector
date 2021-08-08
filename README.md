@@ -113,11 +113,17 @@ As a key for each record, it was decided to utilize a timestamp of the triggered
 ## Future Improvements
 
 -Change model to lite to speed up inference
+
 -Standardize labeling & increase training data set  for better accuracy
+
 -Expand to other wild animals
+
 -Train models to recognize animal faces to separate animals of the same species
+
 -Train model to recognize food consumption
+
 -Overlay collected data with public weather and air quality data for patterns recognition
+
 -Connect to an automated feeding system to feed when all nuts are gone 
 
 
